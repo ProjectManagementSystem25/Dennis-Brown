@@ -1,3 +1,7 @@
+
+
+
+from django.core.exceptions import ValidationError
 from django.db import models
 
 # Create your models here.
@@ -13,7 +17,9 @@ class Supervisor(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-
+    def clean(self):
+        if Supervisor.objects.filter(first_name=self.first_name, last_name=self.last_name).exclude(id=self.id).exists():
+            raise ValidationError(f"A student with the name {self.first_name} {self.last_name} already exists.")
 
 
 
@@ -26,8 +32,14 @@ class StudentLead(models.Model):
     supervisor = models.ForeignKey( Supervisor, on_delete=models.CASCADE, related_name="supervisors")
     
 
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+    def clean(self):
+        if StudentLead.objects.filter(first_name=self.first_name, last_name=self.last_name).exclude(id=self.id).exists():
+            raise ValidationError(f"A student with the name {self.first_name} {self.last_name} already exists.")
+
 
 
 class Project(models.Model):
