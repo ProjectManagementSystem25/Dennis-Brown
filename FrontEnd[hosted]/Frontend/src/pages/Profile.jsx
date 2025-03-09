@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
+import Header from '../components/Header'
 
 const Profile = () => {
     const { authTokens, user } = useContext(AuthContext);
@@ -48,7 +49,7 @@ const Profile = () => {
         e.preventDefault();
 
         if (!authTokens) {
-            navigate("/login");
+            navigate("/");
             return;
         }
 
@@ -83,12 +84,19 @@ const Profile = () => {
             });
     };
 
-    const handleCancel = () => navigate("/");
+    const handleCancel = () => navigate(-1);
 
     return (
-        <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4 text-center">Create Your Profile</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="w-full mx-auto p-6 bg-white rounded-lg shadow-lg">
+            <Header/>
+            <h2 className="text-xl font-bold mb-4 text-center">Create Your Profile</h2>
+            <form onSubmit={handleSubmit} className="space-y-4 sm:px-16 px-4">
+
+                {/* names */}
+
+                <section className="grid grid-cols-2 gap-8">
+
+
                 {/* First Name */}
                 <div className="flex flex-col">
                     <label className="text-sm font-semibold text-gray-700" htmlFor="first_name">
@@ -120,7 +128,7 @@ const Profile = () => {
                         required
                     />
                 </div>
-
+                </section>
                 {/* Supervisor Role - Department Input */}
                 {user.role === "supervisor" && (
                     <div className="flex flex-col">
@@ -187,18 +195,24 @@ const Profile = () => {
                 {/* Buttons */}
                 <div className="flex space-x-4">
                     <button
-                        type="submit"
-                        className={`w-full py-2 mt-4 rounded-md text-white ${
-                            loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-                        }`}
-                        disabled={loading}
+                      type="submit"
+                      disabled={loading}
+                      className={`w-full py-1  font-semibold rounded-md text-green-900 transition flex justify-center items-center ${
+                        loading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600 hover:opacity-80"
+                      }`}
                     >
-                        {loading ? "...Processing..." : "Create Profile"}
+                      {loading && (
+                        <span className="w-4 h-4 border-2 border-t-2 border-green-500 rounded-full animate-spin mr-2"></span>
+                      )}
+                      {loading ? "Processing..." : "Create profile."}
                     </button>
+
+                    {/* Cancel button */}
                     <button
                         type="button"
+                        disabled={loading}
                         onClick={handleCancel}
-                        className="w-full py-2 mt-4 bg-gray-600 text-white rounded-md hover:bg-gray-700"
+                        className="w-full py-1 font-semibold border border-gray-600 text-blue-900 rounded-md hover:bg-gray-700"
                     >
                         Cancel
                     </button>

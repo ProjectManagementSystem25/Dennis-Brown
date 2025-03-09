@@ -23,11 +23,12 @@ DEBUG = True
 ALLOWED_HOSTS = ['.vercel.app', '.now.sh', '127.0.0.1', 'localhost']
 # CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173', 'https://project-pms-kyu.netlify.app'  # Allow your frontend origin
+    'http://localhost:5173',"http://localhost:5174", 'https://project-pms-kyu.netlify.app'  # Allow your frontend origin
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
+    "http://localhost:5174",
     "https://project-pms-kyu.netlify.app",
 ]
 
@@ -46,9 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # created apps.
      'userAuthe', 
       'members',
-       'chat', #app
+       'chat', 
+       'projectChapters',
 
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
@@ -110,6 +113,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
 ]
 
 ROOT_URLCONF = 'servers.urls'
@@ -143,7 +148,7 @@ WSGI_APPLICATION = 'servers.wsgi.application'
 #     }
 # }
 
-# # superbase
+# superbase
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

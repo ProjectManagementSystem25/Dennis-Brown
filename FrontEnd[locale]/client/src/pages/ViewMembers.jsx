@@ -7,7 +7,7 @@
 // ViewMembers.jsx
 import  { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import AuthContext from '../context/AuthContext'; // Import AuthContext for authentication
 
 const ViewMembers = () => {
@@ -16,13 +16,14 @@ const ViewMembers = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         // Make the GET request to the Django API with the proper Authorization headers
         const response = await axios.get(
-          `http://127.0.0.1:8000/members/view/${user.user_id}/`, 
+          `http://localhost:8000/members/view/${user.user_id}/`, 
           {
             headers: {
               Authorization: `Bearer ${authTokens.access}`,
@@ -46,8 +47,17 @@ const ViewMembers = () => {
 </div>;
   if (error) return <p className="text-center text-red-500">Error: {error}</p>;
 
+
+
+  // redirection
+    // Handle view operation
+    const handleView = (member_id) => {
+      navigate(`/one_member_details/${member_id}`); // Navigate to the details page
+    };
+
+
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white  rounded-lg">
+    <div className="w-full  mx-1 sm:mx-auto p-1 sm:p-8 bg-white  rounded-lg">
       <h2 className="text-xl font-bold mb-4 text-center">Project Collaborative Members</h2>
 
       {/* Display student lead details */}
@@ -67,6 +77,18 @@ const ViewMembers = () => {
               <p><strong>Programme:</strong> {member.programme}</p>
               <p><strong>Personal Email:</strong> {member.mail || ''}</p>
               <p><strong>Group Email:</strong> {member.user.email}</p>
+
+
+              <div className="flex gap-2 mt-2">
+                <button
+                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  onClick={() => handleView(member.id)}
+                >
+                  View details
+                </button>
+
+              </div>
+
             </li>
           ))}
         </ol>

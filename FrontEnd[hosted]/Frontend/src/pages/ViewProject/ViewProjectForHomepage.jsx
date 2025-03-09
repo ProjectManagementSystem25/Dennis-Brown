@@ -41,7 +41,7 @@ const ViewProject = () => {
     if (error) return <p className="text-center text-red-500">Error: {error}</p>;
 
     return (
-        <div className="w-full mx-auto p-3 sm:p-6 bg-white shadow-lg rounded-lg">
+        <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
             <h2 className="text-2xl font-bold mb-4 text-center text-green-600">Project Details</h2>
 
             {projectData?.projects.length > 0 ? (

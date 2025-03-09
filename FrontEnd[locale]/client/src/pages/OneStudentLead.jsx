@@ -17,7 +17,7 @@ const ProfileView = () => {
     }
 
     // Fetch student profile data for the logged-in user
-    const url = `http://127.0.0.1:8000/user/onestudentlead/${user.user_id}/`; // Use the logged-in user's ID
+    const url = `http://localhost:8000/user/onestudentlead/${user.user_id}/`; // Use the logged-in user's ID
     axios
       .get(url, {
         headers: { Authorization: `Bearer ${authTokens.access}` },
@@ -25,7 +25,7 @@ const ProfileView = () => {
       .then((response) => {
         setProfileData(response.data); // Set the profile data
         setLoading(false); // Stop loading when data is retrieved
-        console.log(response.data.student_lead.supervisor.first_name)
+        // console.log(response.data.student_lead.supervisor.first_name)
       })
       .catch((error) => {
         // console.error("Error fetching profile data:", error);
